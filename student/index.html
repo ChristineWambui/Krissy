@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Student login</title>
+    <link rel="stylesheet" href="style.css"> </head>
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+<body>
+    <div class="box">
+        <h2>Login</h2>
+        <form action="loginform.php" METHOD="POST">
+            <div class="inputbox">
+                <input type="text" name="admission" required="">
+                <label>Admission Number</label>
+            </div>
+            <div class="inputbox">
+                <input type="password" name="password" required="">
+                <label>Password</label>
+            </div>
+            <input type="submit"  value="Login"> </form>
+            <br>
+            <br>
+            <button type="button" class="btn btn-info btn-lg"  data-toggle="modal" data-target="#myModal">Create Account</button>
+    </div>
+     <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+          
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Register</h4>
+                </div>
+                <div class="modal-body">
+              <form action="form.php" method="POST">
+            <div class="form-group">
+              <label for="fullname">Fullname:</label>
+              <input type="text" name="fullname" required="" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="course">Course</label>
+              <input type="text" name="course" required="" class="form-control" id="pwd">
+            </div>
+            
+              <div class="form-group">
+              <label for="pwd">Admission No:</label>
+              <input type="text"  name="admin" required="" class="form-control" id="pwd">
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input style="color:black;" type="password" name="pwd" required="" class="form-control" id="pwd">
+
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox"> Remember me</label>
+            </div>
+            <button onclick=password() type="submit" class="btn btn-default">Submit</button>
+          </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+          
+            </div>
+          </div>
+        </div>
+</body>
+
+</html>
