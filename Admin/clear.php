@@ -2,7 +2,7 @@
 
 
 include('config.php');
-include('adminstrationretrieve.php');
+include('projectretrieve.php');
 session_start();
 
     if(isset($_SESSION['username']))
@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Adminstration </title>
+  <title>Project Manager</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -184,7 +184,7 @@ desired effect
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                 Administrator
+                 Project Manager
                  
                 </p>
               </li>
@@ -241,11 +241,11 @@ desired effect
       <ul class="sidebar-menu">
         <!-- <li class="header">HEADER</li> -->
         <!-- Optionally, you can add icons to the links -->
-        <li  class="active"><a href=""><i class="fa  fa-check-square"></i> <span>Cleared</span></a></li>
+        <li><a href="projectcleared.php"><i class="fa  fa-check-square"></i> <span>Cleared</span></a></li>
 
-        <li><a href="adminstration.php"><i class="fa  fa-spinner"></i> <span>Pending</span></a></li>
+        <li class="active"><a href=""><i class="fa  fa-spinner"></i> <span>Pending</span></a></li>
         
-        <li><a href="admindenied.php"><i class="fa  fa-minus-square"></i> <span>Denied</span></a></li>
+        <li><a href="projectdenied.php"><i class="fa  fa-minus-square"></i> <span>Denied</span></a></li>
 		
 		<li><a href="#" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> <span>Print</span></a></li>
        <!-- <li class="treeview">
@@ -270,9 +270,9 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 style="text-align: center;">
-       <b>Cleared students</b>
+       <b>Pending Clearance</b>
       </h1>
-      <h2 style="text-align: center;">Administration</h2>
+      <h2 style="text-align: center;">Project</h2>
     </section>
     <br>
     <br>
@@ -283,96 +283,37 @@ desired effect
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Student Name</th>
-                    <th>Action</th>
-                    
-                  </tr>
-                  </thead>
-                  <tbody>
-  
-                 <tr>
-          <?php
-		  
-		  if(retrieveclearedadmission()>0)
-		  {
-                   foreach(retrieveclearedadmission() as $myAdmissions)
-             
-             
-               {   
-              //$admission = $myAdmissions;
-              
-                 ?>
-                    <td><?php echo $myAdmissions['admission']; ?></td>
-                    <td><?php echo $myAdmissions['studentname']; ?></td>
-          
-                   
-                    <td><a href="?denystudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-danger">deny</a>
-                     </td>
-                  </tr>
-           <?php
+			  <br>
+            <form action=".php" method="POST">
+            <div class="form-group">
+              <label for="fullname">Admission Number:</label>
+              <input type="text" name="fullname" required="" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="course">Full Name</label>
+              <input type="text" name="course" required="" class="form-control" id="pwd">
+            </div>
             
-    
-    //perform deny here
-          if(isset($_GET['denystudent']))
-        {
-      $denyadmission = $_GET['denystudent'];
-      $denyquery="UPDATE clear SET status = 3 WHERE admission = $denyadmission AND departmentid = 4";
-      $denyresults=mysqli_query($connection,$denyquery);
-      if($denyresults)
-      {
-        echo "<script>
-        alert('student denied clearance');
-        window.location.href='admincleared.php';
-        </script>
-        ";
-      }
-      else{
-         echo "<script>
-        alert('denial unsuccessful');
-        window.location.href='admincleared.php';
-        </script>
-        ";
-        }
-        }
-        
-        //perform clear here
-          if(isset($_GET['clearstudent']))
-        {
-      $clearadmission = $_GET['clearstudent'];
-      $clearquery="UPDATE clear SET status = 1 WHERE admission = $clearadmission AND departmentid = 4";
-      $clearresults=mysqli_query($connection,$clearquery);
-      if($clearresults)
-      {
-        echo "<script>
-        alert('student cleared');
-        window.location.href='admincleared.php';
-        </script>
-        ";
-      }
-      else{
-         echo "<script>
-        alert('unable to clear');
-        window.location.href='admincleared.php';
-        </script>
-        ";
-        }
-        }
-        }
-		  }
-		  else{
-			  
-			  echo "<tr><td>No students cleared </td></tr>";
-			  
-		  }
-           
-           ?>
-           
-                  </tbody>
-                </table>
+              <div class="form-group">
+              <label for="pwd">User Interface:</label>
+              <input type="text"  name="admin" required="" class="form-control" id="pwd">
+            </div>
+            <div class="form-group">
+              <label for="password">Project Completion:</label>
+              <input style="color:black;" type="password" name="pwd" required="" class="form-control" id="pwd">
+
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox"> Remember me</label>
+            </div>
+            <button onclick=password() type="submit" class="btn btn-default">Submit</button>
+          </form>
+         
+                
+            </div>
+          </div>
+        </div>
+
               </div>
               <!-- /.table-responsive -->
             </div>
@@ -380,6 +321,8 @@ desired effect
        
             <!-- /.box-footer -->
           </div>
+		  
+		
 
     <!-- Main content -->
     <section class="content">
@@ -419,6 +362,8 @@ desired effect
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 
+ 
+
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
@@ -426,19 +371,5 @@ desired effect
 </body>
 </html>
 <?php
-}
-
-
-
-   else 
-   {
- 
-
-      echo"<script>
-      alert('login first');
-      window.location.href='index.html';
-      </script>";
-  
-  
-    }
-    ?>
+	}
+	?>

@@ -311,20 +311,86 @@ desired effect
                     <td><?php echo $myAdmissions['admission']; ?></td>
                     <td><?php echo $myAdmissions['studentname']; ?></td>
           
-                    <td></td>
-                    <td><a href="?clearstudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-success">clear</a>
-                     <a href="?denystudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-danger">deny</a></td>
-                  </tr>
+                 
+                    <td><a href="<?php echo $myAdmissions['admission']?>" type="button" class="btn btn-danger" data-toggle="modal" data-target="#Modal<?php echo $myAdmissions['admission'];?>">progress</a></td>
+					
+            </div>
+          </div>
+        </div>
+
+
+				</tr>
+				
+		    <div id="Modal<?php echo $myAdmissions['admission']?>" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+          
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Project Progress</h4>
+                </div>
+                <div class="modal-body">
+              <form action="project.php" method="POST">
+            <div class="form-group">
+              <label for="fullname">Admission:</label>
+              <input type="text" name="admission" value="<?php echo $myAdmissions['admission'];?>" required="" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="course">FullName:</label>
+              <input type="text" name="fullname" value="<?php echo $myAdmissions['studentname'];?>" required="" class="form-control" id="pwd">
+            </div>
+            
+              <div class="form-group">
+              <label for="pwd">Functionality:</label>
+              <input type="text"  name="func" required="" class="form-control" id="pwd">
+            </div>
+            <div class="form-group">
+              <label for="password">User Interface:</label>
+              <input style="color:black;" name="UI" type="text" name="pwd" required="" class="form-control" id="pwd">
+
+            </div>
+			
+			<div class="form-group">
+              <label for="password">Project Completion:</label>
+              <input style="color:black;" type="text" name="completion" required="" class="form-control" id="pwd">
+
+            </div>
+			
+			<div class="form-group">
+              <label for="password">Message:</label>
+              <input style="color:black;" type="text" name="message" required="" class="form-control" id="pwd">
+
+            </div>
+			<button type="submit" name="clearbutton" class="btn btn-success">clear</button>
+            <a href="?denystudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-danger">deny</a>
+			
+       
+          </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+          
+            </div>
+          </div>
+        </div>
            <?php
             
+			
     
     //perform deny here
           if(isset($_GET['denystudent']))
         {
+	
+	  $message = $_POST['message'];
       $denyadmission = $_GET['denystudent'];
       $denyquery="UPDATE clear SET status = 3 WHERE admission = $denyadmission AND departmentid = 1";
-      $denyresults=mysqli_query($connection,$denyquery);
-      if($denyresults)
+	  $insertmessage = "INSERT INTO notifications(admission,message,status,date,departmentid)VALUES('$denyadmission',$message,1,NOW(),1)";
+      $insertresults = mysqli_query($connection,$insertmessage);
+	  $denyresults=mysqli_query($connection,$denyquery);
+	  
+      if($insertresults)
       {
         echo "<script>
         alert('student denied clearance');
@@ -335,19 +401,28 @@ desired effect
       else{
          echo "<script>
         alert('denial unsuccessful');
-        window.location.href='project.php';
+      
         </script>
         ";
         }
         }
         
         //perform clear here
-          if(isset($_GET['clearstudent']))
+          if(isset($_POST['clearbutton']))
         {
-      $clearadmission = $_GET['clearstudent'];
-      $clearquery="UPDATE clear SET status = 1 WHERE admission = $clearadmission AND departmentid = 1";
+      $admission = $_POST['admission'];
+      $fullname = $_POST['fullname'];
+      $functionality = $_POST['func'];
+      $userinterface = $_POST['UI'];
+      $completion = $_POST['completion'];
+      $message= $_POST['message'];
+      $clearquery="UPDATE clear SET status = 1 WHERE admission = $admission AND departmentid = 1";
+	  $insertmessage = "INSERT INTO notifications(admission,message,status,date,departmentid)VALUES('$admission','$message',1,NOW(),1)";
+	  $insertprogress ="INSERT INTO project_progress(admission,fullname,userinterface,functionality,message)VALUES('$admission','$fullname','$userinterface','$functionality','$message')";
       $clearresults=mysqli_query($connection,$clearquery);
-      if($clearresults)
+	  $notify = mysqli_query($connection,$insertmessage);
+	  $progressresults =mysqli_query($connection,$insertprogress);
+      if($progressresults)
       {
         echo "<script>
         alert('student cleared');
@@ -358,7 +433,7 @@ desired effect
       else{
          echo "<script>
         alert('unable to clear');
-        window.location.href='project.php';
+		window.location,href = 'project.php';
         </script>
         ";
         }
@@ -381,6 +456,8 @@ desired effect
        
             <!-- /.box-footer -->
           </div>
+		  
+		
 
     <!-- Main content -->
     <section class="content">
@@ -419,6 +496,8 @@ desired effect
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
+
+ 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Exam Manager</title>
+  <title>Adminstration </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -246,6 +246,8 @@ desired effect
         <li><a href="adminstration.php"><i class="fa  fa-spinner"></i> <span>Pending</span></a></li>
         
         <li class="active"><a href=""><i class="fa  fa-minus-square"></i> <span>Denied</span></a></li>
+		
+		<li><a href="#" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> <span>Print</span></a></li>
        <!-- <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
@@ -285,7 +287,7 @@ desired effect
                   <thead>
                   <tr>
                     <th>Student</th>
-                   
+                   <th>Student Name</th>
                     <th>Action</th>
                     
                   </tr>

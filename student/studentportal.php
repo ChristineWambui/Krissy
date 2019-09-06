@@ -105,41 +105,66 @@ desired effect
            <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <span class="label label-warning">
+			  <?php
+			 foreach($_SESSION as $admission){
+			    $MyAdmission = $admission;
+			 }
+			 
+			 $retrieve = "SELECT COUNT(message) FROM notifications WHERE admission = '$MyAdmission'";
+			 $result = mysqli_query($connection,$retrieve);
+			 $row = mysqli_fetch_array($result);
+			 echo $row[0];
+				
+			  
+			  ?>
+			  
+			  </span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <li class="header"></li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
+				  <?php 
+				  
+			
+						function retrievemessage()
+						{
+							
+						
+						foreach($_SESSION as $admission){
+						$MyAdmission = $admission;};
+						global $connection;
+						$select="SELECT message FROM notifications WHERE admission = '$MyAdmission'";
+						$selectresult=mysqli_query($connection,$select);
+						$result=array();
+						if(mysqli_num_rows($selectresult)>0)
+						{
+							while($row=mysqli_fetch_array($selectresult))
+								{
+									$result[]=$row;
+								}
+						return $result;
+						}
+	
+						}
+						
+				
+				foreach(retrievemessage() as $sms)
+				  {
+					  
+					 ?>
+					 <li>
                     <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      <i class="fa fa-users text-aqua"><?php echo $sms['message']; ?></i>
                     </a>
                   </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
-                </ul>
-              </li>
+                  <?php
+				  }
+				  ?>
+
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>

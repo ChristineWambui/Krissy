@@ -246,6 +246,8 @@ desired effect
         <li><a href="project.php"><i class="fa  fa-spinner"></i> <span>Pending</span></a></li>
         
         <li><a href="projectdenied.php"><i class="fa  fa-minus-square"></i> <span>Denied</span></a></li>
+		
+		<li><a href="#" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> <span>Print</span></a></li>
        <!-- <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
@@ -285,7 +287,7 @@ desired effect
                   <thead>
                   <tr>
                     <th>Student</th>
-                    <th>Project</th>
+                    <th>Student Name</th>
                     <th>Action</th>
                     
                   </tr>
@@ -304,8 +306,9 @@ desired effect
               
                  ?>
                     <td><?php echo $myAdmissions['admission']; ?></td>
+                    <td><?php echo $myAdmissions['studentname']; ?></td>
           
-                    <td></td>
+                  
                     <td><a href="?denystudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-danger">deny</a>
                      </td>
                   </tr>

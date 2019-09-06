@@ -309,7 +309,7 @@ desired effect
                     <td><?php echo $myAdmissions['admission']; ?></td>
                     <td><?php echo $myAdmissions['studentname']; ?></td>
 					
-                    <td></td>
+                  
                     <td><a href="?clearstudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-success">clear</a>
                      </td>
                   </tr>
