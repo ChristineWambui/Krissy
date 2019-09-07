@@ -3,6 +3,7 @@
 <?php
 
 include('config.php');
+
    
 session_start();
 
@@ -336,7 +337,7 @@ desired effect
 						break;
 						
 						case 1:
-						echo '<span class= "label label-success">cleared</span>';
+						echo '<span  class= "label label-success"><a style="color:black;"href ="clear.php">cleared</a></span>';
 						break;
 						
 						case 2:
@@ -396,7 +397,7 @@ desired effect
 						break;
 						
 						case 1:
-						echo '<span class= "label label-success">cleared</span>';
+						echo '<a href="clear.php">cleared</a>';
 						break;
 						
 						case 2:

@@ -364,7 +364,7 @@ desired effect
             </div>
 			<button type="submit" name="clearbutton" class="btn btn-success">clear</button>
             <a href="?denystudent=<?php echo $myAdmissions['admission'];?>" type="button" class="btn btn-danger">deny</a>
-			
+			<a href="#" onclick="window.print();"><i class="glyphicon glyphicon-print"></i>Print</a>
        
           </form>
                 </div>

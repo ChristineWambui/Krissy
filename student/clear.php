@@ -1,15 +1,17 @@
+
+
 <?php
 
-
 include('config.php');
-include('projectretrieve.php');
+
+
+   
 session_start();
 
-    if(isset($_SESSION['username']))
-      
-    {
+if(isset($_SESSION['admission']))
+{
+      ?>
 
-?>
 
 <!DOCTYPE html>
 <!--
@@ -20,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Project Manager</title>
+  <title>Student portal</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -43,6 +45,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+
+
+
+<script>
+//function setColor(btn){
+  
+   // var property = document.getElementById(btn);
+    //if (property){
+        //property.style.backgroundColor = "red"
+       // property.innerHTML= "Applied"
+                
+    //}
+//}
+
+</script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -64,26 +81,24 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue layout-boxed sidebar-mini sidebar-collapse">
+<body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
 
   <!-- Main Header -->
   <header class="main-header">
 
-     <!-- Logo 
-    <a href="index2.html" class="logo"> -->
-      <!-- mini logo for sidebar mini 50x50 pixels 
-      <span class="logo-mini"><b></b></span>-->
-      <!-- logo for regular state and mobile devices 
-      <span class="logo-lg"><b></b></span>
-    </a> -->
+    <!-- Logo -->
+    
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+    
+      <!-- logo for regular state and mobile devices -->
+     
+    
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button-->
-      <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
+
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -92,41 +107,66 @@ desired effect
            <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <span class="label label-warning">
+			  <?php
+			 foreach($_SESSION as $admission){
+			    $MyAdmission = $admission;
+			 }
+			 
+			 $retrieve = "SELECT COUNT(message) FROM notifications WHERE admission = '$MyAdmission'";
+			 $result = mysqli_query($connection,$retrieve);
+			 $row = mysqli_fetch_array($result);
+			 echo $row[0];
+				
+			  
+			  ?>
+			  
+			  </span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <li class="header"></li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
+				  <?php 
+				  
+			
+						function retrievemessage()
+						{
+							
+						
+						foreach($_SESSION as $admission){
+						$MyAdmission = $admission;};
+						global $connection;
+						$select="SELECT message FROM notifications WHERE admission = '$MyAdmission'";
+						$selectresult=mysqli_query($connection,$select);
+						$result=array();
+						if(mysqli_num_rows($selectresult)>0)
+						{
+							while($row=mysqli_fetch_array($selectresult))
+								{
+									$result[]=$row;
+								}
+						return $result;
+						}
+	
+						}
+						
+				
+				foreach(retrievemessage() as $sms)
+				  {
+					  
+					 ?>
+					 <li>
                     <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      <i class="fa fa-users text-aqua"><?php echo $sms['message']; ?></i>
                     </a>
                   </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
-                </ul>
-              </li>
+                  <?php
+				  }
+				  ?>
+
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
@@ -174,9 +214,8 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php foreach ($_SESSION as $username) {
-                echo "$username";
-              } ?></span>
+              <span class="hidden-xs"><?php foreach($_SESSION as $admission){
+			  echo "$admission" ;}?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -184,7 +223,7 @@ desired effect
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                 Project Manager
+                 Student's name and course
                  
                 </p>
               </li>
@@ -206,73 +245,31 @@ desired effect
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
+ 
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    
 
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php foreach ($_SESSION as $username) {
-                echo "$username";
-              } ?></p>
-          <!-- Status
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>  -->
-        </div>
-      </div>
-
-      <!-- search form (Optional)
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>  -->
+   
+      <!-- search form (Optional) -->
+      
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <!-- <li class="header">HEADER</li> -->
-        <!-- Optionally, you can add icons to the links -->
-        <li><a href="projectcleared.php"><i class="fa  fa-check-square"></i> <span>Cleared</span></a></li>
-
-        <li class="active"><a href=""><i class="fa  fa-spinner"></i> <span>Pending</span></a></li>
-        
-        <li><a href="projectdenied.php"><i class="fa  fa-minus-square"></i> <span>Denied</span></a></li>
-		
-		<li><a href="#" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> <span>Print</span></a></li>
-       <!-- <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
-          </ul>
-        </li> -->
-      </ul>
+     
       <!-- /.sidebar-menu -->
-    </section>
+   
     <!-- /.sidebar -->
-  </aside>
+ 
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 style="text-align: center;">
-       <b>Pending Clearance</b>
+       <b>Clearance Form</b>
+        <small></small>
       </h1>
-      <h2 style="text-align: center;">Project</h2>
     </section>
     <br>
     <br>
@@ -283,37 +280,64 @@ desired effect
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-			  <br>
-            <form action=".php" method="POST">
-            <div class="form-group">
-              <label for="fullname">Admission Number:</label>
-              <input type="text" name="fullname" required="" class="form-control" id="email">
-            </div>
-            <div class="form-group">
-              <label for="course">Full Name</label>
-              <input type="text" name="course" required="" class="form-control" id="pwd">
-            </div>
-            
-              <div class="form-group">
-              <label for="pwd">User Interface:</label>
-              <input type="text"  name="admin" required="" class="form-control" id="pwd">
-            </div>
-            <div class="form-group">
-              <label for="password">Project Completion:</label>
-              <input style="color:black;" type="password" name="pwd" required="" class="form-control" id="pwd">
-
-            </div>
-            <div class="checkbox">
-              <label><input type="checkbox"> Remember me</label>
-            </div>
-            <button onclick=password() type="submit" class="btn btn-default">Submit</button>
-          </form>
-         
-                
-            </div>
-          </div>
-        </div>
-
+                <?php
+				
+					
+						function retrieverecords()
+						{
+							
+						
+						foreach($_SESSION as $admission){
+						$MyAdmission = $admission;};
+						global $connection;
+						$results=array();
+						$selectprogress="SELECT*FROM project_progress WHERE admission = '$MyAdmission'";
+						$progressresult=mysqli_query($connection,$selectprogress);
+						if(mysqli_num_rows($progressresult)>0)
+						{
+							while($rows=mysqli_fetch_array($progressresult))
+								{
+									$results[]=$rows;
+								}
+						return $results;
+						}
+	
+						}
+						
+				
+				foreach(retrieverecords() as $record)
+				  {
+					  ?>
+				
+						<form action="" method="POST">
+						<div class="form-group">
+				<label for="fullname">Admission</label>
+				<p class="form-control" id="admission"><?php echo $record['admission'];?></p>
+				</div>
+				<div class="form-group">
+				<label for="email">Fullname</label>
+				<p class="form-control" id="fullname"><?php echo $record['fullname'];?></p>
+				</div>
+  
+				<div class="form-group">
+				<label for="pwd">User Interface</label>
+				<p  class="form-control" id="email"><?php echo  $record['userinterface'];?></p>
+				</div>
+				
+				<div class="form-group">
+				<label for="pwd">Functionality</label>
+				<p class="form-control" id="email"><?php echo  $record['functionality'];?></p>
+				</div>
+				
+				<div class="form-group">
+				<label for="pwd">Message</label>
+			    <p class="form-control" id="email"><?php echo  $record['message'];?></p>
+				</div>
+				</form>
+				<?php
+				  }
+				  ?>
+                 
               </div>
               <!-- /.table-responsive -->
             </div>
@@ -321,8 +345,6 @@ desired effect
        
             <!-- /.box-footer -->
           </div>
-		  
-		
 
     <!-- Main content -->
     <section class="content">
@@ -362,14 +384,53 @@ desired effect
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 
- 
-
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the
      fixed layout. -->
 </body>
-</html>
+</html> 
 <?php
-	}
-	?>
+
+}
+  
+	  //  if(isset($_POST['exams']))
+	  // {
+		  
+    //  $examquery="INSERT INTO clear(departmentid,admission,status,userid)VALUES(1,1,1,1);
+    // $exam=mysqli_query($connection,$examquery);
+		//  if($exam)
+
+		//    {
+		//  	   echo "<script>
+		//     alert('application successful');
+		// 	  window.location.href='studentportal.php';
+		//     </script>
+		//   ";
+		//    }
+		//    else{
+		// 	   echo "<script>
+		// 	  alert('application unsuccessful');
+		//    window.location.href='studentportal.php';
+		//   </script>
+		//   ";
+		//  }
+    
+
+
+   else 
+   {
+ 
+
+      echo"<script>
+      alert('login first');
+      window.location.href='index.html';
+      </script>";
+  
+  
+    }
+
+  
+
+?>
+
